@@ -29,14 +29,13 @@ app.use((err, req, res, next) => {
 });
 
 const mongoClient = new MongoClient(mongoDBUri);
-const exlucdePaths = ['/api/login', '/api/register'];
+// const exlucdePaths = ['/api/login', '/api/register'];
 
 startServer();
 async function startServer() {
   await mongoClient.connect();
   console.log('Connected successfully to server');
   db = mongoClient.db('marauders-quiz');
-  const collections = await db.listCollections().toArray();
-  console.log(collections);
+  require('./src/routes/rooms')(app, io, db);
 }
 server.listen(port, () => {});
